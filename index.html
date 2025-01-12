@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Vocabulary Matching Game</h1>
+    <div class="info">
+        <span>Time: <span id="timer">1:30</span></span>
+        <span>Score: <span id="score">0</span></span>
+    </div>
+    <div class="wordlist-selector">
+        <label for="wordlist">Choose a wordlist:</label>
+        <select id="wordlist">
+            <option value="0">Day 1</option>
+            <option value="1">Day 2</option>
+            <option value="2">Day 3</option>
+            <option value="3">Day 4</option>
+            <option value="4">Day 5</option>
+            <option value="5">Day 6</option>
+            <option value="6">Day 7</option>
+            <option value="7">Day 8</option>
+            <option value="8">Day 9</option>
+            <option value="9">Day 10</option>
+        </select>
+    </div>
+    <div>
+        <button id="start-button">Start Game</button>
+        <button id="reset-button" disabled>Reset Game</button>
+    </div>
+    <div id="game" class="game-container">
+        <div id="vocab-column" class="column">
+            <h3 id="vocab-heading">Vocabularies</h3>
+            <div id="vocab-list"></div>
+        </div>
+        <div id="meaning-column" class="column">
+            <h3 id="meaning-heading">Meanings</h3>
+            <div id="meaning-list"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
