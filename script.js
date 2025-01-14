@@ -23,8 +23,8 @@ const vocabData = [
         { vocab: "prevent", meaning: "impede" },
         { vocab: "performance", meaning: "show" },
         { vocab: "position", meaning: "stance" },
-        { vocab: "harm", meaning: "mass" },
-        { vocab: "success", meaning: "assembly" },
+        { vocab: "harm", meaning: "damage" },
+        { vocab: "success", meaning: "triumph" },
     ],
     [
         { vocab: "consider", meaning: "contemplate" },
