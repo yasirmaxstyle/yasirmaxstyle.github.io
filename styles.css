@@ -1,7 +1,7 @@
 body {
-    font-family: "Roboto", serif;
+    font-family: "Nunito", serif;
     font-optical-sizing: auto;
-    font-weight: 500;
+    font-weight: 300;
     font-style: normal;
     font-variation-settings:
         "wdth" 900;
@@ -9,26 +9,56 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px;
+    min-width: 30%;
 }
 
 h1 {
-    margin-bottom: 20px;
+    margin: 10px 0;
 }
 
 .info {
-    margin: 20px 0;
-    font-size: 18px;
+    margin-top: 10px;
+    display: flex;
+}
+
+.timer,
+.score,
+.lives {
+    padding: 2px 5px;
+}
+
+#timer,
+#score {
+    border: solid black;
+    border-radius: 5px;
+    padding: 2px 5px;
+    border-width: thin;
+    font-weight: 800;
+}
+
+#lives {
+    font-weight: 800;
 }
 
 .wordlist-selector {
+    align-items: center;
+    justify-content: center;
     margin: 10px 0;
-    font-size: 18px;
+}
+
+#wordlist {
+    font-family: inherit;
+    padding: .375rem;
+}
+
+option:hover {
+    background-color: #007BFF;
 }
 
 button {
+    font-family: inherit;
     margin: 5px;
-    padding: 10px 20px;
+    padding: 10px 30px;
     font-size: 16px;
     cursor: pointer;
     border: 1px solid #007BFF;
@@ -48,14 +78,23 @@ button:hover:not(:disabled) {
     background-color: #0056b3;
 }
 
+p {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 10px;
+}
+
 .game-container {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 0;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1rem;
 }
 
 .column {
-    margin: 0 20px;
+    margin: 0 15px;
 }
 
 h3 {
@@ -65,38 +104,56 @@ h3 {
 }
 
 .card {
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     padding: 10px;
-    margin: 5px 0;
-    background-color: #f9f9f9;
+    margin: 10px 0;
+    background-color: #fff;
+    color: #000;
     cursor: pointer;
     text-align: center;
     width: 150px;
-    height: 40px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    ;
 }
 
-.card.hidden {
-    background-color: #ddd;
-    color: transparent;
+.card.clicked {
+    background-color: rgba(0, 123, 255, 0.15);
+    border: 2px solid #007BFF;
+    color: #007BFF;
     cursor: pointer;
 }
 
-.card:hover:not(.hidden) {
-    background-color: #e3f2fd;
-}
-
-.card:not(.hidden) {
-    color: #000;
-}
-
 .card.match {
-    background-color: #d4edda;
-    color: #4CAF50;
-    border-color: #c3e6cb;
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #4caf50;
+    border: 2px solid #4caf50;
     cursor: default;
+    transition: background-color 0.3s, color 0.3s;
+    animation: background-fade 1s forwards;
+}
+
+@keyframes background-fade {
+    99.99% {
+        background-color: rgba(76, 175, 80, 0.15);
+        color: #4caf50;
+        border: 2px solid #4caf50;
+    }
+
+    100% {
+        background-color: #fff;
+        color: #ccc;
+        border: 2px solid #ccc
+    }
+}
+
+.card.incorrect {
+    background-color: rgba(255, 0, 0, 0.15);
+    color: red;
+    border: 2px solid red;
+    transition: background-color 0.3s, color 0.3s;
 }

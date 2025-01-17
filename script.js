@@ -15,8 +15,8 @@ const vocabData = [
         { vocab: "completeness", meaning: "thoroughness" },
         { vocab: "interest", meaning: "engagement" },
         { vocab: "measure", meaning: "gauge" },
-        { vocab: "decoration", meaning: "adornment" },
-        { vocab: "industry", meaning: "commerce" },
+        { vocab: "decorate", meaning: "adorn" },
+        { vocab: "industry", meaning: "manufacture" },
         { vocab: "region", meaning: "district" },
         { vocab: "weight", meaning: "mass" },
         { vocab: "construction", meaning: "assembly" },
@@ -47,6 +47,72 @@ const vocabData = [
         { vocab: "halt", meaning: "cease" },
         { vocab: "evidence", meaning: "proof" },
         { vocab: "abundant", meaning: "plentiful" },
+    ],
+    [
+        { vocab: "dependent", meaning: "reliant" },
+        { vocab: "persuasive", meaning: "convincing" },
+        { vocab: "presumption", meaning: "supposition" },
+        { vocab: "authentic", meaning: "genuine" },
+        { vocab: "coincidence", meaning: "by chance" },
+        { vocab: "declare", meaning: "announce" },
+        { vocab: "constitute", meaning: "establish" },
+        { vocab: "desire", meaning: "wish" },
+        { vocab: "private", meaning: "personal" },
+        { vocab: "information", meaning: "news" },
+        { vocab: "satisfy", meaning: "fulfill" },
+        { vocab: "compete", meaning: "contend" },
+        { vocab: "compliment", meaning: "praise" },
+        { vocab: "reliable", meaning: "trustworthy" },
+        { vocab: "variety", meaning: "diversity" },
+        { vocab: "equal", meaning: "equivalent" },
+        { vocab: "purify", meaning: "cleanse" },
+        { vocab: "elaborate", meaning: "giving more detail" },
+        { vocab: "grace", meaning: "elegance" },
+        { vocab: "decision", meaning: "choice" },
+    ],
+    [
+        { vocab: "ripe", meaning: "mature" },
+        { vocab: "assertive", meaning: "confident" },
+        { vocab: "alleviate", meaning: "relieve" },
+        { vocab: "fleeting", meaning: "brief" },
+        { vocab: "confuse", meaning: "perplex" },
+        { vocab: "relative", meaning: "comparative" },
+        { vocab: "lavish", meaning: "luxurious" },
+        { vocab: "migrate", meaning: "relocate" },
+        { vocab: "extinct", meaning: "vanished" },
+        { vocab: "maintenance", meaning: "preservation" },
+        { vocab: "arrange", meaning: "organize" },
+        { vocab: "existence", meaning: "presence" },
+        { vocab: "adorn", meaning: "decorate" },
+        { vocab: "mixture", meaning: "blend" },
+        { vocab: "guidance", meaning: "supervision" },
+        { vocab: "achieve", meaning: "accomplish" },
+        { vocab: "occurence", meaning: "phenomenon" },
+        { vocab: "ascend", meaning: "rise" },
+        { vocab: "complement", meaning: "supplement" },
+        { vocab: "flourish", meaning: "prosper" },
+    ],
+    [
+        { vocab: "bind", meaning: "tie" },
+        { vocab: "attain", meaning: "acquire" },
+        { vocab: "branch", meaning: "division" },
+        { vocab: "coat", meaning: "covering" },
+        { vocab: "preceding", meaning: "previous" },
+        { vocab: "resemble", meaning: "imitate" },
+        { vocab: "represent", meaning: "symbolize" },
+        { vocab: "inhibit", meaning: "restrain" },
+        { vocab: "fluctuate", meaning: "rise and fall" },
+        { vocab: "service", meaning: "assistance" },
+        { vocab: "lose", meaning: "defeat" },
+        { vocab: "ratify", meaning: "approve" },
+        { vocab: "respire", meaning: "breath" },
+        { vocab: "estimate", meaning: "calculate" },
+        { vocab: "fertilize", meaning: "nourish" },
+        { vocab: "incorporate", meaning: "integrate" },
+        { vocab: "decay", meaning: "decompose" },
+        { vocab: "acquire", meaning: "obtain" },
+        { vocab: "conduct", meaning: "organize" },
+        { vocab: "drop", meaning: "descend" },
     ]
 ]
 
@@ -56,6 +122,7 @@ const meaningList = document.getElementById("meaning-list");
 const wordList = document.getElementById('wordlist');
 const timerElement = document.getElementById("timer");
 const scoreElement = document.getElementById("score");
+const livesElement = document.getElementById("lives");
 const startButton = document.getElementById("start-button");
 const resetButton = document.getElementById("reset-button");
 
@@ -64,18 +131,9 @@ let currentPage = 0;
 const itemsPerPage = 5;
 let timer = 90;
 let score = 0;
+let lives = 5;
 let timerInterval;
 let gameStarted = false;
-
-document.getElementById('start-button').addEventListener('click', () => {
-    document.getElementById('vocab-heading').style.display = 'block';
-    document.getElementById('meaning-heading').style.display = 'block';
-});
-
-document.getElementById('reset-button').addEventListener('click', () => {
-    document.getElementById('vocab-heading').style.display = 'none';
-    document.getElementById('meaning-heading').style.display = 'none';
-});
 
 function loadPage(page) {
     const startIndex = page * itemsPerPage;
@@ -87,7 +145,7 @@ function loadPage(page) {
 
     pageData.forEach(item => {
         const vocabItem = document.createElement("div");
-        vocabItem.classList.add("card", "hidden");
+        vocabItem.classList.add("card", "unclicked");
         vocabItem.textContent = item.vocab;
         vocabItem.dataset.type = "vocab";
         vocabItem.dataset.match = item.meaning;
@@ -95,7 +153,7 @@ function loadPage(page) {
         vocabList.appendChild(vocabItem);
 
         const meaningItem = document.createElement("div");
-        meaningItem.classList.add("card", "hidden");
+        meaningItem.classList.add("card", "unclicked");
         meaningItem.textContent = item.meaning;
         meaningItem.dataset.type = "meaning";
         meaningItem.dataset.match = item.meaning;
@@ -121,10 +179,10 @@ function flipCard(event) {
 
     const card = event.target;
 
-    if (!card.classList.contains("hidden") || flippedCards.length === 2) return;
+    if (!card.classList.contains("unclicked") || flippedCards.length === 2) return;
 
-    card.classList.remove("hidden");
-    card.style.color = "#000";
+    card.classList.remove("unclicked");
+    card.classList.add("clicked");
     flippedCards.push(card);
 
     if (flippedCards.length === 2) {
@@ -136,8 +194,8 @@ function checkMatch() {
     const [card1, card2] = flippedCards;
 
     if (card1.dataset.match === card2.dataset.match) {
-        card1.style.backgroundColor = "#d4edda";
-        card2.style.backgroundColor = "#d4edda";
+        card1.classList.add("match");
+        card2.classList.add("match");
         card1.removeEventListener("click", flipCard);
         card2.removeEventListener("click", flipCard);
         score += 10;
@@ -155,11 +213,25 @@ function checkMatch() {
             }
         }
     } else {
+        card1.classList.add("incorrect");
+        card2.classList.add("incorrect");
         setTimeout(() => {
-            card1.classList.add("hidden");
-            card2.classList.add("hidden");
-            card1.style.color = "transparent";
-            card2.style.color = "transparent";
+            card1.classList.remove("clicked", "incorrect");
+            card2.classList.remove("clicked", "incorrect");
+            card1.classList.add("unclicked");
+            card2.classList.add("unclicked");
+        }, 500);
+        setTimeout(() => {
+            lives--;
+            livesElement.textContent = lives;
+            if (lives > 0) {
+                alert(`Oops! You have ${lives} more lives.`)
+            } else if (lives === 0) {
+                alert(`Lives run out! Game over. Your score: ${score}`);
+                gameStarted = false;
+                resetButton.disabled = false;
+                resetGame();
+            }
         }, 500);
     }
 
@@ -167,7 +239,7 @@ function checkMatch() {
 }
 
 function isPageComplete() {
-    const remainingCards = Array.from(vocabList.children).filter(card => card.classList.contains("hidden"));
+    const remainingCards = Array.from(vocabList.children).filter(card => card.classList.contains("unclicked"));
     return remainingCards.length === 0;
 }
 
@@ -181,8 +253,10 @@ function startGame() {
     currentPage = 0;
     timer = 90;
     score = 0;
+    lives = 5;
     timerElement.textContent = formatTime(timer);
     scoreElement.textContent = score;
+    livesElement.textContent = lives;
     loadPage(currentPage);
     startTimer();
 }
@@ -190,11 +264,14 @@ function startGame() {
 function resetGame() {
     gameStarted = false;
     timer = 90;
+    score = 0;
+    lives = 5;
     clearInterval(timerInterval);
     startButton.disabled = false;
     resetButton.disabled = true;
     timerElement.textContent = formatTime(timer);
     scoreElement.textContent = 0;
+    livesElement.textContent = lives;
     vocabList.innerHTML = "";
     meaningList.innerHTML = "";
 }
@@ -205,9 +282,10 @@ function startTimer() {
         timerElement.textContent = formatTime(timer);
         if (timer === 0) {
             clearInterval(timerInterval);
-            alert("Time's up! Game over.");
+            alert(`Time's up! Game over. Your score: ${score}`);
             gameStarted = false;
             resetButton.disabled = false;
+            resetGame();
         }
     }, 1000);
 }
