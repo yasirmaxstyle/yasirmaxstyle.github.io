@@ -207,7 +207,9 @@ function checkMatch() {
                 setTimeout(() => loadPage(currentPage), 1000);
             } else {
                 clearInterval(timerInterval);
-                alert(`Congratulations! You've completed the game. Your score: ${score}`);
+                setTimeout(() => {
+                    alert(`Congratulations! You've completed the game. Your score: ${score}`);
+                }, 500);
                 gameStarted = false;
                 resetButton.disabled = false;
             }
@@ -220,7 +222,7 @@ function checkMatch() {
             card2.classList.remove("clicked", "incorrect");
             card1.classList.add("unclicked");
             card2.classList.add("unclicked");
-        }, 500);
+        }, 100);
         setTimeout(() => {
             lives--;
             livesElement.textContent = lives;
@@ -232,7 +234,7 @@ function checkMatch() {
                 resetButton.disabled = false;
                 resetGame();
             }
-        }, 500);
+        }, 100);
     }
 
     flippedCards = [];

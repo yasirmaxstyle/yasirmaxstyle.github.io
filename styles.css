@@ -19,6 +19,7 @@ h1 {
 .info {
     margin-top: 10px;
     display: flex;
+    font-size: 1.3rem;
 }
 
 .timer,
@@ -48,6 +49,7 @@ h1 {
 
 #wordlist {
     font-family: inherit;
+    font-size: 1rem;
     padding: .375rem;
 }
 
@@ -79,7 +81,7 @@ button:hover:not(:disabled) {
 }
 
 p {
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: 800;
     margin: 10px;
 }
@@ -90,7 +92,7 @@ p {
     margin: 0;
     font-family: inherit;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .column {
@@ -146,14 +148,14 @@ h3 {
 
     100% {
         background-color: #fff;
-        color: #ccc;
-        border: 2px solid #ccc
+        color: #ebebe4;
+        border: 2px solid #ebebe4;
     }
 }
 
 .card.incorrect {
     background-color: rgba(255, 0, 0, 0.15);
-    color: red;
-    border: 2px solid red;
+    color: #d0342c;
+    border: 2px solid #d0342c;
     transition: background-color 0.3s, color 0.3s;
 }
